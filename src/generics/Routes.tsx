@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DarkTheme } from "@react-navigation/native";
 import { AppTabs } from "./AppTabs";
 
 interface RoutesProps {}
@@ -7,7 +7,7 @@ interface RoutesProps {}
 export const Routes: React.FC<RoutesProps> = ({}) => {
 
         return(
-                <NavigationContainer>
+                <NavigationContainer theme={DarkTheme}>
                         <AppTabs />
                 </NavigationContainer>
         );

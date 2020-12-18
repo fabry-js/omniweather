@@ -17,21 +17,19 @@ export const AppTabs: React.FC<AppTabsProps> = ({}) =>{
                 screenOptions={({route}) =>({
                     tabBarIcon: () =>{
                         if (route.name === 'Home') {
-                            return <AntDesign name="home" size={24} color="black" />
+                            return <AntDesign name="home" size={24} color="white" />
                         } else if (route.name === 'Settings') {
-                            return <AntDesign name="setting" size={24} color="black" />
+                            return <AntDesign name="setting" size={24} color="white" />
                         }
                     }
                 })}
                 tabBarOptions={{
-                    activeTintColor: "blue",
-                    inactiveTintColor: "black"
+                    activeTintColor: "white",
+                    inactiveTintColor: "grey"
                 }}
             >
                 <Tabs.Screen name="Home" component={HomeStack}/>
                 <Tabs.Screen name="Settings" component={SettingsStack}/>
-
-
             </Tabs.Navigator>
         );
 }
