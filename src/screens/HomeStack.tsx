@@ -1,5 +1,5 @@
 import React, { SetStateAction, useState, useEffect } from "react";
-import { ScrollView, View } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeNavProps, HomeStackParamList } from "./HomeStackParamList";
 import quotes from "../db/quotes.json";
@@ -15,6 +15,7 @@ import axios from "axios";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "../generics/styles";
 import { DarkTheme } from "@react-navigation/native";
+import { Entypo, Feather, FontAwesome, FontAwesome5, Fontisto } from "@expo/vector-icons";
 let db = quotes;
 
 interface HomeStackProps {}
@@ -58,6 +59,25 @@ function Home({ navigation }: HomeNavProps<"Home">) {
       setQuote(db[Math.floor(Math.random() * db.length)]);
       convertDate(res.data.sys.sunrise, true)
       convertDate(res.data.sys.sunset, false)
+    }).catch((err)=>{
+      return(
+        Alert.alert(
+          "❌404!❌",
+          "Attention: City not found or your connection is not working correctly! Please retry.",
+          [
+            {
+              text: "Cancel",
+              style: "cancel"
+            },
+            {
+              text: "OK",
+            }
+          ],
+          {
+            cancelable: false,
+          }
+        )
+      )
     });
   };
 
@@ -115,31 +135,31 @@ function Home({ navigation }: HomeNavProps<"Home">) {
           <Card>
             <Card.Content>
               <Paragraph style={styles.textGeneric}>
-                Feels like:{" "}
+                <Fontisto name="smiley" size={16} color="white" /> Feels like:{" "}
                 {response ? Math.round(response.main.feels_like - 273.15) : "-"}{" "}
                 °C
               </Paragraph>
               <Paragraph style={styles.textGeneric}>
-                Humidity: {response ? response.main.humidity : "-"} %{" "}
+                <Entypo name="drop" size={16} color="white" /> Humidity: {response ? response.main.humidity : "-"} %{" "}
               </Paragraph>
               <Paragraph style={styles.textGeneric}>
-                Pressure: {response ? response.main.pressure : "-"} mBar{" "}
+                <Entypo name="air" size={16} color="white" /> Pressure: {response ? response.main.pressure : "-"} mBar{" "}
               </Paragraph>
               <Paragraph style={styles.textGeneric}>
-                Minimum Temperature:{" "}
+                <FontAwesome5 name="temperature-low" size={16} color="white" /> Minimum Temperature:{" "}
                 {response ? Math.round(response.main.temp_min - 273.15) : "-"}{" "}
                 °C{" "}
               </Paragraph>
               <Paragraph style={styles.textGeneric}>
-                Maximum Temperature:{" "}
+                <FontAwesome5 name="temperature-high" size={16} color="white" /> Maximum Temperature:{" "}
                 {response ? Math.round(response.main.temp_max - 273.15) : "-"}{" "}
                 °C{" "}
               </Paragraph>
               <Paragraph style={styles.textGeneric}>
-                🌞Sunrise: {response ? sunrise : "-"}{" "}
+                <Feather name="sun" size={16} color="white" /> Sunrise: {response ? sunrise : "-"}{" "}
               </Paragraph>
               <Paragraph style={styles.textGeneric}>
-                🌚Sunset: {response ? sunSet : "-"}{" "}
+                <FontAwesome name="moon-o" size={16} color="white" /> Sunset: {response ? sunSet : "-"}{" "}
               </Paragraph>
             </Card.Content>
           </Card>
@@ -152,7 +172,7 @@ function Home({ navigation }: HomeNavProps<"Home">) {
         >
           <Card>
             <Card.Content>
-              <Title style={styles.textGeneric}>☀Zen Quote of the day☀</Title>
+              <Title style={styles.textGeneric}> <FontAwesome5 name="brain" size={24} color="white" /> Zen Quote of the day <FontAwesome5 name="brain" size={24} color="white" /></Title>
               <Paragraph style={styles.textGeneric}>{quote}</Paragraph>
             </Card.Content>
           </Card>
