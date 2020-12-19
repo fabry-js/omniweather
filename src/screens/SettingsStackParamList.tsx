@@ -3,7 +3,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 
 export type SettingsStackParamList = {
     Settings: undefined,
-
+    Info: undefined,
+    EditFavourites: undefined
 }
 
 export type SettingsNavProps<T extends keyof SettingsStackParamList> = {
