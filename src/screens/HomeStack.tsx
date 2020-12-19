@@ -26,11 +26,29 @@ function Home({ navigation }: HomeNavProps<"Home">) {
   const [response, setResponse] = useState<any>(null);
   const [weather, setWeather] = useState([]);
   const [quote, setQuote] = useState("");
+  const [sunrise, setSunrise] = useState("")
+  const [sunSet, setSunSet] = useState("")
 
   const onChangeSearch = (query: SetStateAction<string>) =>
     setSearchQuery(query);
 
   useEffect(() => {}, [searchQuery]);
+
+
+  const convertDate = (baseTimestamp: number, sunrise: boolean) =>{
+      let normalized = new Date(baseTimestamp * 1000)
+      let hours = normalized.getHours().toString()
+      let minutes = normalized.getMinutes().toString()
+      if (minutes.length <= 1) {
+        minutes = "0" + minutes
+      }
+      let final = hours + ":" + minutes
+      if (sunrise == true) {
+        setSunrise(final)
+      } else {
+        setSunSet(final)
+      }
+  }
 
   const submitQuery = () => {
     const BASE = `http://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=7a6e0713247c280ffdeeee7b61dc003b`;
@@ -38,6 +56,8 @@ function Home({ navigation }: HomeNavProps<"Home">) {
       setWeather(res.data.weather);
       setResponse(res.data);
       setQuote(db[Math.floor(Math.random() * db.length)]);
+      convertDate(res.data.sys.sunrise, true)
+      convertDate(res.data.sys.sunset, false)
     });
   };
 
@@ -49,7 +69,6 @@ function Home({ navigation }: HomeNavProps<"Home">) {
       surface: "#000000",
     },
   };
-  
 
   return (
     <ScrollView>
@@ -117,10 +136,10 @@ function Home({ navigation }: HomeNavProps<"Home">) {
                 °C{" "}
               </Paragraph>
               <Paragraph style={styles.textGeneric}>
-                🌞Sunrise: {response ? response.sys.sunrise : "-"}{" "}
+                🌞Sunrise: {response ? sunrise : "-"}{" "}
               </Paragraph>
               <Paragraph style={styles.textGeneric}>
-                🌚Sunset: {response ? response.sys.sunrise : "-"}{" "}
+                🌚Sunset: {response ? sunSet : "-"}{" "}
               </Paragraph>
             </Card.Content>
           </Card>
