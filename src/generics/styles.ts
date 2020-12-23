@@ -2,11 +2,7 @@ export const styles = {
   body: {
     backgroundColor: "#3F4582",
   },
-  textGeneric: {
-    color: "white",
-    textAlign: "center",
-  },
-
+  
   buttons: {
     textAlign: "left"
   },
@@ -55,3 +51,8 @@ export const styles = {
     color: "white",
   }
 };
+
+export const textGeneric = {
+  color: "white",
+  textAlign: "center",
+}

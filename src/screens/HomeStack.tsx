@@ -10,12 +10,16 @@ import {
   Title,
   Paragraph,
   DefaultTheme,
+  DarkTheme as PaperDarkTheme
 } from "react-native-paper";
 import axios from "axios";
-import { LinearGradient } from "expo-linear-gradient";
-import { styles } from "../generics/styles";
-import { DarkTheme } from "@react-navigation/native";
-import { Entypo, Feather, FontAwesome, FontAwesome5, Fontisto } from "@expo/vector-icons";
+import {
+  Entypo,
+  Feather,
+  FontAwesome,
+  FontAwesome5,
+  Fontisto,
+} from "@expo/vector-icons";
 let db = quotes;
 
 interface HomeStackProps {}
@@ -27,157 +31,189 @@ function Home({ navigation }: HomeNavProps<"Home">) {
   const [response, setResponse] = useState<any>(null);
   const [weather, setWeather] = useState([]);
   const [quote, setQuote] = useState("");
-  const [sunrise, setSunrise] = useState("")
-  const [sunSet, setSunSet] = useState("")
+  const [sunrise, setSunrise] = useState("");
+  const [sunSet, setSunSet] = useState("");
 
   const onChangeSearch = (query: SetStateAction<string>) =>
     setSearchQuery(query);
 
   useEffect(() => {}, [searchQuery]);
 
-
-  const convertDate = (baseTimestamp: number, sunrise: boolean) =>{
-      let normalized = new Date(baseTimestamp * 1000)
-      let hours = normalized.getHours().toString()
-      let minutes = normalized.getMinutes().toString()
-      if (minutes.length <= 1) {
-        minutes = "0" + minutes
-      }
-      let final = hours + ":" + minutes
-      if (sunrise == true) {
-        setSunrise(final)
-      } else {
-        setSunSet(final)
-      }
-  }
+  const convertDate = (baseTimestamp: number, sunrise: boolean) => {
+    let normalized = new Date(baseTimestamp * 1000);
+    let hours = normalized.getHours().toString();
+    let minutes = normalized.getMinutes().toString();
+    if (minutes.length <= 1) {
+      minutes = "0" + minutes;
+    }
+    let final = hours + ":" + minutes;
+    if (sunrise == true) {
+      setSunrise(final);
+    } else {
+      setSunSet(final);
+    }
+  };
 
   const submitQuery = () => {
     const BASE = `http://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=7a6e0713247c280ffdeeee7b61dc003b`;
-    axios.get(BASE).then((res) => {
-      setWeather(res.data.weather);
-      setResponse(res.data);
-      setQuote(db[Math.floor(Math.random() * db.length)]);
-      convertDate(res.data.sys.sunrise, true)
-      convertDate(res.data.sys.sunset, false)
-    }).catch((err)=>{
-      return(
-        Alert.alert(
+    axios
+      .get(BASE)
+      .then((res) => {
+        setWeather(res.data.weather);
+        setResponse(res.data);
+        setQuote(db[Math.floor(Math.random() * db.length)]);
+        convertDate(res.data.sys.sunrise, true);
+        convertDate(res.data.sys.sunset, false);
+      })
+      .catch((err) => {
+        return Alert.alert(
           "❌404!❌",
           "Attention: City not found or your connection is not working correctly! Please retry.",
           [
             {
               text: "Cancel",
-              style: "cancel"
+              style: "cancel",
             },
             {
               text: "OK",
-            }
+            },
           ],
           {
             cancelable: false,
           }
-        )
-      )
-    });
-  };
-
-  const theme = {
-    ...DefaultTheme,
-    roundness: 10,
-    colors: {
-      ...DefaultTheme.colors,
-      surface: "#000000",
-    },
+        );
+      });
   };
 
   return (
     <ScrollView>
-      <Provider theme={theme}>
         <Searchbar
           onChangeText={onChangeSearch}
           value={searchQuery}
           placeholder="Search for weather in your city"
           onSubmitEditing={submitQuery}
-          inputStyle={styles.textGeneric}
+          inputStyle={{
+            color: "white",
+            textAlign: "center",
+          }}
           iconColor="white"
         />
 
         <View
-          style={styles.weatherWidgetRight}
+          style={{
+            position: "absolute",
+            width: 243,
+            height: 230,
+            left: 132,
+            top: 72,
+          }}
         >
-          <Card>
             <Card.Content>
-              <Title style={styles.mainWeatherWidgetText}>
+              <Title
+                style={{ color: "white", textAlign: "center", fontSize: 16 }}
+              >
                 Temperature for {response ? response.name : ""}{" "}
                 {response ? response.sys.country : ""}:
               </Title>
               <Title
-                style={styles.wWidgetTempText}
+                style={{ color: "white", textAlign: "center", fontSize: 32 }}
               >
                 {" "}
                 {response ? Math.round(response.main.temp - 273.15) : "-"} °C
               </Title>
               {weather && (
-                <Paragraph style={styles.mainWeatherWidgetText}>
+                <Paragraph
+                  style={{ color: "white", textAlign: "center", fontSize: 16 }}
+                >
                   {response ? weather.map((el, i) => `${el.main}`) : ""},{" "}
                   {response ? weather.map((el, i) => `${el.description}`) : ""}
                 </Paragraph>
               )}
             </Card.Content>
-          </Card>
         </View>
 
         <Paragraph> </Paragraph>
 
         <View
-          style={styles.additionalInfoLeft}
+          style={{
+            position: "absolute",
+            width: 123,
+            height: 231,
+            left: 9,
+            top: 80,
+            borderColor: "#817878",
+          }}
         >
-          <Card>
             <Card.Content>
-              <Paragraph style={styles.textGeneric}>
+              <Paragraph style={{ color: "white", textAlign: "center" }}>
                 <Fontisto name="smiley" size={16} color="white" /> Feels like:{" "}
                 {response ? Math.round(response.main.feels_like - 273.15) : "-"}{" "}
                 °C
               </Paragraph>
-              <Paragraph style={styles.textGeneric}>
-                <Entypo name="drop" size={16} color="white" /> Humidity: {response ? response.main.humidity : "-"} %{" "}
+              <Paragraph style={{ color: "white", textAlign: "center" }}>
+                <Entypo name="drop" size={16} color="white" /> Humidity:{" "}
+                {response ? response.main.humidity : "-"} %{" "}
               </Paragraph>
-              <Paragraph style={styles.textGeneric}>
-                <Entypo name="air" size={16} color="white" /> Pressure: {response ? response.main.pressure : "-"} mBar{" "}
+              <Paragraph style={{ color: "white", textAlign: "center" }}>
+                <Entypo name="air" size={16} color="white" /> Pressure:{" "}
+                {response ? response.main.pressure : "-"} mBar{" "}
               </Paragraph>
-              <Paragraph style={styles.textGeneric}>
-                <FontAwesome5 name="temperature-low" size={16} color="white" /> Minimum Temperature:{" "}
+              <Paragraph style={{ color: "white", textAlign: "center" }}>
+                <FontAwesome5 name="temperature-low" size={16} color="white" />{" "}
+                Minimum Temperature:{" "}
                 {response ? Math.round(response.main.temp_min - 273.15) : "-"}{" "}
                 °C{" "}
               </Paragraph>
-              <Paragraph style={styles.textGeneric}>
-                <FontAwesome5 name="temperature-high" size={16} color="white" /> Maximum Temperature:{" "}
+              <Paragraph style={{ color: "white", textAlign: "center" }}>
+                <FontAwesome5 name="temperature-high" size={16} color="white" />{" "}
+                Maximum Temperature:{" "}
                 {response ? Math.round(response.main.temp_max - 273.15) : "-"}{" "}
                 °C{" "}
               </Paragraph>
-              <Paragraph style={styles.textGeneric}>
-                <Feather name="sun" size={16} color="white" /> Sunrise: {response ? sunrise : "-"}{" "}
+              <Paragraph style={{ color: "white", textAlign: "center" }}>
+                <Feather name="sun" size={16} color="white" /> Sunrise:{" "}
+                {response ? sunrise : "-"}{" "}
               </Paragraph>
-              <Paragraph style={styles.textGeneric}>
-                <FontAwesome name="moon-o" size={16} color="white" /> Sunset: {response ? sunSet : "-"}{" "}
+              <Paragraph style={{ color: "white", textAlign: "center" }}>
+                <FontAwesome name="moon-o" size={16} color="white" /> Sunset:{" "}
+                {response ? sunSet : "-"}{" "}
               </Paragraph>
             </Card.Content>
-          </Card>
         </View>
 
         <Paragraph> </Paragraph>
 
         <View
-          style={styles.zenQuoteHeader}
+          style={{
+            position: "absolute",
+            width: 330,
+            height: 40,
+            left: 27,
+            flex: 1,
+            top: 438,
+          }}
         >
-          <Card>
             <Card.Content>
-              <Title style={styles.textGeneric}> <FontAwesome5 name="brain" size={24} color="white" /> Zen Quote of the day <FontAwesome5 name="brain" size={24} color="white" /></Title>
-              <Paragraph style={styles.textGeneric}>{quote}</Paragraph>
+              <Title
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                {" "}
+                <FontAwesome5 name="brain" size={24} color="white" /> Zen Quote
+                of the day <FontAwesome5 name="brain" size={24} color="white" />
+              </Title>
+              <Paragraph
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                {quote}
+              </Paragraph>
             </Card.Content>
-          </Card>
-        </View> 
-      </Provider>
+        </View>
     </ScrollView>
   );
 }
