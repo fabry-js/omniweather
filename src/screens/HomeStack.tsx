@@ -108,7 +108,7 @@ function Home({ navigation }: HomeNavProps<"Home">) {
             {response ? response.sys.country : ""}:
           </Title>
           <Paragraph> </Paragraph>
-          <Title style={{ color: "white", textAlign: "center", fontSize: 48 }}>
+          <Title style={{ color: "white", textAlign: "center", fontSize: 32 }}>
             {" "}
             {response ? Math.round(response.main.temp - 273.15) : "-"} °C
           </Title>
