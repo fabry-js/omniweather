@@ -10,10 +10,11 @@ import {
   Title,
   Paragraph,
   DefaultTheme,
-  DarkTheme as PaperDarkTheme
+  DarkTheme as PaperDarkTheme,
 } from "react-native-paper";
 import axios from "axios";
 import {
+  AntDesign,
   Entypo,
   Feather,
   FontAwesome,
@@ -65,7 +66,7 @@ function Home({ navigation }: HomeNavProps<"Home">) {
         convertDate(res.data.sys.sunrise, true);
         convertDate(res.data.sys.sunset, false);
       })
-      .catch((err) => {
+      .catch((_err) => {
         return Alert.alert(
           "❌404!❌",
           "Attention: City not found or your connection is not working correctly! Please retry.",
@@ -87,133 +88,102 @@ function Home({ navigation }: HomeNavProps<"Home">) {
 
   return (
     <ScrollView>
-        <Searchbar
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-          placeholder="Search for weather in your city"
-          onSubmitEditing={submitQuery}
-          inputStyle={{
-            color: "white",
-            textAlign: "center",
-          }}
-          iconColor="white"
-        />
+      <Searchbar
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+        placeholder="Search for weather in your city"
+        onSubmitEditing={submitQuery}
+        inputStyle={{
+          color: "white",
+          textAlign: "center",
+        }}
+        iconColor="white"
+      />
 
-        <View
-          style={{
-            position: "absolute",
-            width: 243,
-            height: 230,
-            left: 132,
-            top: 72,
-          }}
-        >
-            <Card.Content>
-              <Title
-                style={{ color: "white", textAlign: "center", fontSize: 16 }}
-              >
-                Temperature for {response ? response.name : ""}{" "}
-                {response ? response.sys.country : ""}:
-              </Title>
-              <Title
-                style={{ color: "white", textAlign: "center", fontSize: 32 }}
-              >
-                {" "}
-                {response ? Math.round(response.main.temp - 273.15) : "-"} °C
-              </Title>
-              {weather && (
-                <Paragraph
-                  style={{ color: "white", textAlign: "center", fontSize: 16 }}
-                >
-                  {response ? weather.map((el, i) => `${el.main}`) : ""},{" "}
-                  {response ? weather.map((el, i) => `${el.description}`) : ""}
-                </Paragraph>
-              )}
-            </Card.Content>
-        </View>
+      <View>
+        <Card.Content>
+          <Paragraph> </Paragraph>
+          <Title style={{ color: "white", textAlign: "center", fontSize: 32 }}>
+            Temperature for {response ? response.name : ""}{" "}
+            {response ? response.sys.country : ""}:
+          </Title>
+          <Paragraph> </Paragraph>
+          <Title style={{ color: "white", textAlign: "center", fontSize: 48 }}>
+            {" "}
+            {response ? Math.round(response.main.temp - 273.15) : "-"} °C
+          </Title>
+          {weather && (
+            <Paragraph
+              style={{ color: "white", textAlign: "center", fontSize: 16 }}
+            >
+              {response ? weather.map((el, _i) => `${el.main}`) : ""},{" "}
+              {response ? weather.map((el, _i) => `${el.description}`) : ""}
+            </Paragraph>
+          )}
+        </Card.Content>
+      </View>
 
-        <Paragraph> </Paragraph>
+      <Paragraph> </Paragraph>
 
-        <View
-          style={{
-            position: "absolute",
-            width: 123,
-            height: 231,
-            left: 9,
-            top: 80,
-            borderColor: "#817878",
-          }}
-        >
-            <Card.Content>
-              <Paragraph style={{ color: "white", textAlign: "center" }}>
-                <Fontisto name="smiley" size={16} color="white" /> Feels like:{" "}
-                {response ? Math.round(response.main.feels_like - 273.15) : "-"}{" "}
-                °C
-              </Paragraph>
-              <Paragraph style={{ color: "white", textAlign: "center" }}>
-                <Entypo name="drop" size={16} color="white" /> Humidity:{" "}
-                {response ? response.main.humidity : "-"} %{" "}
-              </Paragraph>
-              <Paragraph style={{ color: "white", textAlign: "center" }}>
-                <Entypo name="air" size={16} color="white" /> Pressure:{" "}
-                {response ? response.main.pressure : "-"} mBar{" "}
-              </Paragraph>
-              <Paragraph style={{ color: "white", textAlign: "center" }}>
-                <FontAwesome5 name="temperature-low" size={16} color="white" />{" "}
-                Minimum Temperature:{" "}
-                {response ? Math.round(response.main.temp_min - 273.15) : "-"}{" "}
-                °C{" "}
-              </Paragraph>
-              <Paragraph style={{ color: "white", textAlign: "center" }}>
-                <FontAwesome5 name="temperature-high" size={16} color="white" />{" "}
-                Maximum Temperature:{" "}
-                {response ? Math.round(response.main.temp_max - 273.15) : "-"}{" "}
-                °C{" "}
-              </Paragraph>
-              <Paragraph style={{ color: "white", textAlign: "center" }}>
-                <Feather name="sun" size={16} color="white" /> Sunrise:{" "}
-                {response ? sunrise : "-"}{" "}
-              </Paragraph>
-              <Paragraph style={{ color: "white", textAlign: "center" }}>
-                <FontAwesome name="moon-o" size={16} color="white" /> Sunset:{" "}
-                {response ? sunSet : "-"}{" "}
-              </Paragraph>
-            </Card.Content>
-        </View>
+      <View>
+        <Card.Content>
+          <Paragraph style={{ color: "white", textAlign: "center" }}>
+            <Fontisto name="smiley" size={16} color="white" /> Feels like:{" "}
+            {response ? Math.round(response.main.feels_like - 273.15) : "-"} °C
+          </Paragraph>
+          <Paragraph style={{ color: "white", textAlign: "center" }}>
+            <Entypo name="drop" size={16} color="white" /> Humidity:{" "}
+            {response ? response.main.humidity : "-"} %{" "}
+          </Paragraph>
+          <Paragraph style={{ color: "white", textAlign: "center" }}>
+            <Entypo name="air" size={16} color="white" /> Pressure:{" "}
+            {response ? response.main.pressure : "-"} mBar{" "}
+          </Paragraph>
+          <Paragraph style={{ color: "white", textAlign: "center" }}>
+            <FontAwesome5 name="temperature-low" size={16} color="white" />{" "}
+            Minimum Temperature:{" "}
+            {response ? Math.round(response.main.temp_min - 273.15) : "-"} °C{" "}
+          </Paragraph>
+          <Paragraph style={{ color: "white", textAlign: "center" }}>
+            <FontAwesome5 name="temperature-high" size={16} color="white" />{" "}
+            Maximum Temperature:{" "}
+            {response ? Math.round(response.main.temp_max - 273.15) : "-"} °C{" "}
+          </Paragraph>
+          <Paragraph style={{ color: "white", textAlign: "center" }}>
+            <Feather name="sun" size={16} color="white" /> Sunrise:{" "}
+            {response ? sunrise : "-"}{" "}
+          </Paragraph>
+          <Paragraph style={{ color: "white", textAlign: "center" }}>
+            <FontAwesome name="moon-o" size={16} color="white" /> Sunset:{" "}
+            {response ? sunSet : "-"}{" "}
+          </Paragraph>
+        </Card.Content>
+      </View>
 
-        <Paragraph> </Paragraph>
+      <Paragraph> </Paragraph>
 
-        <View
-          style={{
-            position: "absolute",
-            width: 330,
-            height: 40,
-            left: 27,
-            flex: 1,
-            top: 438,
-          }}
-        >
-            <Card.Content>
-              <Title
-                style={{
-                  color: "white",
-                  textAlign: "center",
-                }}
-              >
-                {" "}
-                <FontAwesome5 name="brain" size={24} color="white" /> Zen Quote
-                of the day <FontAwesome5 name="brain" size={24} color="white" />
-              </Title>
-              <Paragraph
-                style={{
-                  color: "white",
-                  textAlign: "center",
-                }}
-              >
-                {quote}
-              </Paragraph>
-            </Card.Content>
-        </View>
+      <View>
+        <Card.Content>
+          <Title
+            style={{
+              color: "white",
+              textAlign: "center",
+            }}
+          >
+            {" "}
+            <FontAwesome5 name="brain" size={24} color="white" /> Zen Quote of
+            the day <FontAwesome5 name="brain" size={24} color="white" />
+          </Title>
+          <Paragraph
+            style={{
+              color: "white",
+              textAlign: "center",
+            }}
+          >
+            {quote}
+          </Paragraph>
+        </Card.Content>
+      </View>
     </ScrollView>
   );
 }
