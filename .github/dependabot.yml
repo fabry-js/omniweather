@@ -1,0 +1,56 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: react-native-paper
+    versions:
+    - 4.7.1
+    - 4.7.2
+    - 4.8.0
+  - dependency-name: expo
+    versions:
+    - 40.0.1
+    - 41.0.0
+  - dependency-name: "@react-navigation/bottom-tabs"
+    versions:
+    - 5.11.7
+    - 5.11.8
+    - 5.11.9
+  - dependency-name: "@types/react-native"
+    versions:
+    - 0.63.46
+    - 0.63.47
+    - 0.63.48
+    - 0.63.49
+    - 0.63.50
+    - 0.63.51
+    - 0.63.52
+    - 0.64.0
+    - 0.64.2
+  - dependency-name: "@types/react-dom"
+    versions:
+    - 17.0.0
+    - 17.0.1
+    - 17.0.2
+  - dependency-name: react-native-gesture-handler
+    versions:
+    - 1.10.0
+    - 1.10.1
+    - 1.10.2
+    - 1.9.0
+  - dependency-name: "@react-navigation/native"
+    versions:
+    - 5.9.2
+    - 5.9.3
+  - dependency-name: "@react-navigation/stack"
+    versions:
+    - 5.14.2
+    - 5.14.3
+  - dependency-name: react-native-safe-area-context
+    versions:
+    - 3.1.9
