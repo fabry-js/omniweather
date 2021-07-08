@@ -1412,10 +1412,10 @@
   dependencies:
     "@types/react" "^16"
 
-"@types/react-native@~0.63.20":
-  version "0.63.42"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.63.42.tgz#d0baf405edc646d15d5a7f8e67983b8701c1ea2a"
-  integrity sha512-zb7m2Uwfz6MQh/Nq1DDAmzTRO+EQWV7ZyRl9ZZ2QLd1480xjRjPDQqRkp4vuk3gyRlQtwi0v9I3tOh2IxHFujw==
+"@types/react-native@~0.64.11":
+  version "0.64.11"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.64.11.tgz#c40264c5bd916e589b6c914982df324f5107960a"
+  integrity sha512-WgOJtQpFyH063MHZugOHq8Qr0J0UnASmz0NvSNRXEOd8ySkuNvLmlkiITr+L85o2BPj3hB/wx8IiK16dW/uVkQ==
   dependencies:
     "@types/react" "*"
 
